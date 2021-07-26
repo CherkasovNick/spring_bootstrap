@@ -20,7 +20,7 @@ import java.util.Set;
 public class UserServiceImpl implements UserService, UserDetailsService {
     private UserDAO userDAO;
     private RoleDAO roleDAO;
-    private PasswordEncoder bCryptPasswordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     public void setUserDAO(UserDAO userDAO) {
@@ -33,8 +33,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Autowired
-    public void setbCryptPasswordEncoder(PasswordEncoder bCryptPasswordEncoder) {
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    public void setCryptPasswordEncoder(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public void save(User user, String[] roles) {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoles(roleDAO.getRoleSetForUser(roles));
         userDAO.save(user);
     }
@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public void update(User user, String[] roles) {
         if (!user.getPassword().isEmpty()) {
-            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
         user.setRoles(roleDAO.getRoleSetForUser(roles));
         userDAO.update(user);
@@ -68,25 +68,27 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         userDAO.delete(user);
     }
 
+    //UserDetailsService
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userDAO.getUserByName(username);
-        return user;
+        return userDAO.getUserByName(username);
+    }
+
+    //    PasswordEncoderBean
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     @Override
     public String showRoles(User user) {
         Set<Role> userRolesSet = user.getRoles();
         StringBuilder userRoles = new StringBuilder();
-        for (Role role:userRolesSet) {
+        for (Role role : userRolesSet) {
             userRoles.append(role.toString());
             userRoles.append(" ");
         }
         return userRoles.toString();
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 }

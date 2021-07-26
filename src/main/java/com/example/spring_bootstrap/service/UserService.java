@@ -1,6 +1,5 @@
 package com.example.spring_bootstrap.service;
 
-
 import com.example.spring_bootstrap.model.User;
 
 import java.util.List;

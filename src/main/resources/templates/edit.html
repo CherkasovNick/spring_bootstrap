@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Edit user</title>
 </head>
 <body>
 <form th:method="PATCH" th:action="@{'/admin/'+${user.id}}" th:object="${user}">
-    <p><input type="hidden" th:field="*{id}" /></p>
+    <p><input type="hidden" th:field="*{id}"/></p>
 
     <p><label for="username">Username</label></p>
     <p><input type="text" th:field="*{username}" id="username" value="username" required></p>
@@ -37,8 +36,8 @@
 
 </form>
 <p>
-<form method="POST" th:action="@{/logout}" >
+<form method="POST" th:action="@{/logout}">
     <input type="submit" value="Logout"/>
 </form>
 </body>
-</html>
+</>

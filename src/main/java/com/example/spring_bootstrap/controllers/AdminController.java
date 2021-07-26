@@ -1,12 +1,10 @@
 package com.example.spring_bootstrap.controllers;
 
-import com.example.spring_bootstrap.dao.RoleDAO;
 import com.example.spring_bootstrap.model.User;
 import com.example.spring_bootstrap.service.RoleService;
 import com.example.spring_bootstrap.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,13 +16,10 @@ public class AdminController {
     private final UserService userService;
     private final RoleService roleService;
 
-    private final PasswordEncoder bCryptPasswordEncoder;
-
     @Autowired
-    public AdminController(UserService userService, RoleService roleService, PasswordEncoder bCryptPasswordEncoder) {
+    public AdminController(UserService userService, RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @GetMapping
