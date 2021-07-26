@@ -1,4 +1,4 @@
-package com.example.spring_bootstrap.controller;
+package com.example.spring_bootstrap.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class LoginController {
 
-    @GetMapping(value = "/login")
+    @GetMapping("/login")
     public String loginPage() {
         return "login";
     }

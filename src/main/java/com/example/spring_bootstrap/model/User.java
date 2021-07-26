@@ -1,6 +1,5 @@
 package com.example.spring_bootstrap.model;
 
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -10,35 +9,34 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Table(name = "users")
+@Table(name="users")
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+    Long id;
 
-    @Column(name = "username")
-    private String username;
+    @Column
+    String username;
 
-    @Column(name = "password")
-    private String password;
-
-    @Column(name = "name")
-    private String name;
-
-    @Column(name = "age")
-    private byte age;
-
-    @Column(name = "email")
-    private String email;
+    @Column
+    String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
-    public User() {
-    }
+    @Column
+    String name;
+
+
+    @Column
+    byte age;
+
+    @Column
+    String email;
+
+    public User() { }
 
     public User(String username, String name, String email, byte age) {
         this.username = username;
@@ -105,6 +103,7 @@ public class User implements UserDetails {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+
     public String getName() {
         return name;
     }
@@ -154,6 +153,4 @@ public class User implements UserDetails {
                 ", email='" + email + '\'' +
                 '}';
     }
-
-
 }

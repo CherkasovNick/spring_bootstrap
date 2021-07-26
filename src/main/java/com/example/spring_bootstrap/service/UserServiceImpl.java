@@ -1,7 +1,8 @@
 package com.example.spring_bootstrap.service;
 
-import com.example.spring_bootstrap.dao.RoleRepository;
-import com.example.spring_bootstrap.dao.UserRepository;
+import com.example.spring_bootstrap.dao.RoleDAO;
+import com.example.spring_bootstrap.dao.UserDAO;
+import com.example.spring_bootstrap.model.Role;
 import com.example.spring_bootstrap.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -13,68 +14,79 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+import java.util.Set;
 
 @Service
-public class UserServiceImpl implements UserDetailsService {
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private RoleRepository roleRepository;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+public class UserServiceImpl implements UserService, UserDetailsService {
+    private UserDAO userDAO;
+    private RoleDAO roleDAO;
+    private PasswordEncoder bCryptPasswordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    @Autowired
+    public void setUserDAO(UserDAO userDAO) {
+        this.userDAO = userDAO;
     }
 
     @Autowired
-    public void setCryptPasswordEncoder(PasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
+    public void setRoleDAO(RoleDAO roleDAO) {
+        this.roleDAO = roleDAO;
     }
 
     @Autowired
-    public void setUserRepository(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public void setbCryptPasswordEncoder(PasswordEncoder bCryptPasswordEncoder) {
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
+    @Override
     public List<User> allUsers() {
-        return userRepository.findAll();
+        return userDAO.allUsers();
     }
 
+    @Override
     public User getById(Long id) {
-//        return userRepository.getById(id);
-        return userRepository.findById(id).get();
+        return userDAO.getById(id);
     }
 
+    @Override
     public void save(User user, String[] roles) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-//        user.setRoles(roleRepository.getRoleSetForUser(roles));
-        userRepository.save(user);
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.setRoles(roleDAO.getRoleSetForUser(roles));
+        userDAO.save(user);
     }
 
+    @Override
     public void update(User user, String[] roles) {
         if (!user.getPassword().isEmpty()) {
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         }
-//        user.setRoles(roleRepository.getRoleSetForUser(roles));
-        userRepository.save(user);
+        user.setRoles(roleDAO.getRoleSetForUser(roles));
+        userDAO.update(user);
     }
 
-    public void delete(long id) {
-        userRepository.deleteById(id);
+    @Override
+    public void delete(User user) {
+        userDAO.delete(user);
     }
 
-    //UserDetailsService
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.getUserByName(username);
+        User user = userDAO.getUserByName(username);
+        return user;
     }
 
-    //    PasswordEncoderBean
+    @Override
+    public String showRoles(User user) {
+        Set<Role> userRolesSet = user.getRoles();
+        StringBuilder userRoles = new StringBuilder();
+        for (Role role:userRolesSet) {
+            userRoles.append(role.toString());
+            userRoles.append(" ");
+        }
+        return userRoles.toString();
+    }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 }
