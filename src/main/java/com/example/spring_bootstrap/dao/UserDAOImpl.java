@@ -32,11 +32,11 @@ public class UserDAOImpl implements UserDAO {
         return entityManager.find(User.class, id);
     }
 
-    @Override
-    @Transactional
-    public void update(User user) {
-        entityManager.merge(user);
-    }
+//    @Override
+//    @Transactional
+//    public void update(User user) {
+//        entityManager.merge(user);
+//    }
 
     @Override
     @Transactional

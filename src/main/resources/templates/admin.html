@@ -14,7 +14,8 @@
 <div id="header" class="d-flex bg-dark p-0">
     <div th:text="${authorizedUser.username}" class="p-2 text-white font-weight-bold"></div>
     <div th:text="'with roles: ' + ${userRoles}" class="p-2 w-100 text-white"></div>
-    <a class="p-2 text-secondary text-right text-decoration-none" href="/logout">Logout</a>
+
+    <a class="p-1 text-secondary text-right text-decoration-none" href="/logout">Logout</a>
 </div>
 <main class="row mr-0">
     <div class="col-2 mt-3 p-0">
@@ -212,7 +213,7 @@
                                         <option selected >Выберите роль</option>
                                         <option th:each="role : ${allRoles}"
                                                 th:value="${role}"
-                                                th:text="${role.toString()}">
+                                                th:text="${role}">
                                         </option>
                                     </select>
                                 </p>

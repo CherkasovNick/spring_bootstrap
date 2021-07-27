@@ -17,22 +17,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public void save(Role role) {
-    }
-
-    @Override
     public void delete(Role role) {
-
-    }
-
-    @Override
-    public Role getById(Long id) {
-        return null;
-    }
-
-    @Override
-    public Role getRoleByName(String rolename) {
-        return null;
     }
 
     @Override
@@ -40,8 +25,4 @@ public class RoleServiceImpl implements RoleService {
         return roleDAO.getRoleSet();
     }
 
-    @Override
-    public Set<Role> getRoleSetForUser(String[] rolenames) {
-        return roleDAO.getRoleSetForUser(rolenames);
-    }
 }

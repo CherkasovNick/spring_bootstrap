@@ -55,26 +55,17 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void update(User user, String[] roles) {
-        if (!user.getPassword().isEmpty()) {
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-        }
-        user.setRoles(roleDAO.getRoleSetForUser(roles));
-        userDAO.update(user);
-    }
-
-    @Override
     public void delete(User user) {
         userDAO.delete(user);
     }
 
-    //UserDetailsService
+    //  UserDetailsService
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userDAO.getUserByName(username);
     }
 
-    //    PasswordEncoderBean
+    //  PasswordEncoderBean
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

@@ -13,16 +13,11 @@ import java.util.Set;
 @Component
 @Transactional
 public class RoleDAOImpl implements RoleDAO {
+
     @PersistenceContext
     private EntityManager entityManager;
 
     public RoleDAOImpl() {
-    }
-
-    @Override
-    public void save(Role role) {
-        Role managed = entityManager.merge(role);
-        entityManager.persist(managed);
     }
 
     @Override
@@ -32,26 +27,21 @@ public class RoleDAOImpl implements RoleDAO {
     }
 
     @Override
-    public Role getById(Long id) {
-        return entityManager.find(Role.class, id );
-    }
-
-    @Override
     public Role getRoleByName(String rolename) {
-        try{
+        try {
             return entityManager.createQuery("SELECT r FROM Role r where r.name = :name", Role.class)
                     .setParameter("name", rolename)
                     .getSingleResult();
-        } catch (NoResultException ex){
+        } catch (NoResultException ex) {
             return null;
         }
     }
 
     public Set<Role> getRoleSet() {
-        try{
+        try {
             return new HashSet<>(entityManager.createQuery("SELECT r FROM Role r", Role.class)
                     .getResultList());
-        } catch (NoResultException e){
+        } catch (NoResultException e) {
             e.printStackTrace();
             return null;
         }
