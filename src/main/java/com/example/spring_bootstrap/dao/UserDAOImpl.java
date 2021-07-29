@@ -40,7 +40,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public User getUserByName(String email) {
+    public User getUserByEmail(String email) {
         try {
             return entityManager.createQuery("SELECT u FROM User u where u.email = :email", User.class)
                     .setParameter("email", email)

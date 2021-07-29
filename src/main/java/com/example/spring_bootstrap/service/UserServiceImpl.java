@@ -62,12 +62,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     //  UserDetailsService
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userDAO.getUserByName(email);
-        if (user == null) {
-            throw new UsernameNotFoundException("Not found!");
-        }
-        return user;
-//        return userDAO.getUserByName(email);
+        return userDAO.getUserByEmail(email);
     }
 
     //  PasswordEncoderBean
