@@ -61,8 +61,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     //  UserDetailsService
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userDAO.getUserByName(username);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userDAO.getUserByName(email);
+        if (user == null) {
+            throw new UsernameNotFoundException("Not found!");
+        }
+        return user;
+//        return userDAO.getUserByName(email);
     }
 
     //  PasswordEncoderBean
@@ -70,6 +75,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 
     @Override
     public String showRoles(User user) {
