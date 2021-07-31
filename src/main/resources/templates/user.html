@@ -13,7 +13,7 @@
 <body>
 <header class="d-flex bg-dark" th:object="${user}">
     <div class="p-2 text-white font-weight-bold" th:text="${user.username}"></div>
-    <div class="p-2 w-100 text-white" th:utext="'with roles: ' + ${userRoles}"></div>
+<!--    <div class="p-2 w-100 text-white" th:utext="'with roles: ' + ${userRoles}"></div>-->
     <a class="p-2 text-secondary text-right text-decoration-none" th:href="@{/logout}"> Logout </a>
 </header>
 <div class="row">
