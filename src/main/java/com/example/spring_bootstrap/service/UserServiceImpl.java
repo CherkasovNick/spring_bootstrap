@@ -78,7 +78,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         StringBuilder userRoles = new StringBuilder();
         for (Role role : userRolesSet) {
             userRoles.append(role.toString());
-            userRoles.append(" ");
         }
         return userRoles.toString();
     }
