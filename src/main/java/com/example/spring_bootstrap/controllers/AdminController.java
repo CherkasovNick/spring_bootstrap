@@ -23,7 +23,7 @@ public class AdminController {
     }
 
     @GetMapping
-    public String allUsers(Model model) {
+    public String getAllUsers(Model model) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         model.addAttribute("authorizedUser", user);
         model.addAttribute("userRoles", userService.showRoles(user));
@@ -33,15 +33,17 @@ public class AdminController {
         return "admin";
     }
 
+    //добаваить new user
     @PostMapping("/create")
-    public String addUser(@ModelAttribute("user") User user, @RequestParam(value = "roleList") String[] selectedRoles) {
+    public String createUser(@ModelAttribute("user") User user, @RequestParam(value = "roleList") String[] selectedRoles) {
         userService.save(user, selectedRoles);
         return "redirect:/admin";
     }
 
+    //изменить user
     @PostMapping("/update")
-    public String editUser(@ModelAttribute User user, @RequestParam(value = "roleList") String[] selectedRoles) {
-        userService.save(user, selectedRoles);
+    public String updateUser(@ModelAttribute User user, @RequestParam(value = "roleList") String[] selectedRoles) {
+        userService.update(user, selectedRoles);
         return "redirect:/admin";
     }
 

@@ -55,6 +55,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public void update(User user, String[] roles) {
+        user.getPassword().equals(user);
+        user.setRoles(roleDAO.getRoleSetForUser(roles));
+        userDAO.save(user);
+    }
+
+    @Override
     public void delete(User user) {
         userDAO.delete(user);
     }
@@ -65,12 +72,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userDAO.getUserByEmail(email);
     }
 
-    //  PasswordEncoderBean
+    //      PasswordEncoderBean
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 
     @Override
     public String showRoles(User user) {

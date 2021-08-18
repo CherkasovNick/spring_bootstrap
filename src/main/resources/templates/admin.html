@@ -12,13 +12,13 @@
     <title>Admin</title>
 </head>
 <body>
+
 <div id="header" class="d-flex bg-dark p-0">
     <div th:text="${authorizedUser.email}" class="p-2 text-white font-weight-bold"></div>
     <div th:text="' with roles: ' + ${userRoles}" class="p-2 w-100 text-white"></div>
-
     <a class="p-2 text-secondary text-right text-decoration-none" href="/logout">Logout</a>
-
 </div>
+
 <main class="row mr-0">
     <div class="col-2 mt-3 p-0">
         <div id="tablist" class="nav flex-column nav-pills" role="tablist" aria-orientation="vertical">
@@ -313,7 +313,6 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
-<script src="/NewUser.js"></script>
 
 </body>
 </html>
