@@ -56,8 +56,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public void update(User user, String[] roles) {
-        if (user.getPassword() != null) {
-//        user.equals(user.getPassword());
+        if (!user.getPassword().equals(userDAO.getById(user.getId()).getPassword())) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
             user.setRoles(roleDAO.getRoleSetForUser(roles));
             userDAO.save(user);
         }
@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         userDAO.delete(user);
     }
 
-    //  UserDetailsService
+    //      UserDetailsService
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return userDAO.getUserByEmail(email);
