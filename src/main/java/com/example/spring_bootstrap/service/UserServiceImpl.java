@@ -18,23 +18,18 @@ import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
-    private UserDAO userDAO;
-    private RoleDAO roleDAO;
-    private PasswordEncoder passwordEncoder;
+    private final UserDAO userDAO;
+    private final RoleDAO roleDAO;
+    private PasswordEncoder bCryptPasswordEncoder;
 
-    @Autowired
-    public void setUserDAO(UserDAO userDAO) {
+    public UserServiceImpl(UserDAO userDAO, RoleDAO roleDAO) {
         this.userDAO = userDAO;
-    }
-
-    @Autowired
-    public void setRoleDAO(RoleDAO roleDAO) {
         this.roleDAO = roleDAO;
     }
 
     @Autowired
     public void setCryptPasswordEncoder(PasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
+        this.bCryptPasswordEncoder = passwordEncoder;
     }
 
     @Override
@@ -49,7 +44,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public void save(User user, String[] roles) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setRoles(roleDAO.getRoleSetForUser(roles));
         userDAO.save(user);
     }
@@ -57,10 +52,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public void update(User user, String[] roles) {
         if (!user.getPassword().equals(userDAO.getById(user.getId()).getPassword())) {
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-            user.setRoles(roleDAO.getRoleSetForUser(roles));
-            userDAO.save(user);
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         }
+        user.setRoles(roleDAO.getRoleSetForUser(roles));
+        userDAO.save(user);
     }
 
     @Override
